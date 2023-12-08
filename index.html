@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        .screen {
+            border: 2px solid black;
+            height: 500px;
+            width: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div id="screen" class="screen">
+
+    </div>
+    <script>
+
+        // Initialisation
+            let screen = document.getElementById('screen');
+        // Création du vaisseau
+            let ship = document.createElement('div');
+            ship.classList.add('ship');
+            screen.appendChild(ship);
+            ship.style.width = 100 +'px';
+            ship.style.height = 50 +'px';
+            ship.style.backgroundColor = 'black';
+            ship.style.position = 'absolute';
+            ship.style.top = 450 + 'px';
+            ship.style.left = 200 + 'px';
+        // Création des barrières
+            for (let i=0; i<3; i++) {
+            let wall = document.createElement('div');
+            wall.classList.add('wall');
+            screen.appendChild(wall);
+            wall.style.width = 100 +'px';
+            wall.style.height = 50 +'px';
+            wall.style.backgroundColor = 'grey';
+            wall.style.position = 'absolute';
+            wall.style.top = 350 + 'px';
+            wall.style.left = 50+(150*i) + 'px';
+            }
+            let walls=document.querySelectorAll('.wall');
+
+        // Contrôle du vaisseau
+            let shipPosX = 200;
+        // Déplacement du vaisseau
+            document.addEventListener('keydown', (event) => {
+                let key = event.key;
+                if (key == "1") {
+                    if (shipPosX>=20) shipPosX-=10;
+                    ship.style.left = shipPosX +'px';
+                }
+                if (key == "3") {
+                    if (shipPosX<=400) shipPosX+=10;
+                    ship.style.left = shipPosX +'px';
+                }
+                
+        // Tirs du vaisseau
+                if (key == ' ') {
+                    if (document.querySelectorAll('.laser').length<10) {
+                    let laserPosY = 400;
+                    let laser = document.createElement('div');
+                    laser.classList.add('laser');
+                    screen.appendChild(laser);
+                    laser.style.width = 5 +'px';
+                    laser.style.height = 50 +'px'; 
+                    laser.style.position = 'absolute';
+                    laser.style.top = laserPosY + 'px';
+                    laser.style.left = shipPosX+47.5 +'px';
+                    laser.style.backgroundColor = 'green';
+                    let blast = setInterval(() => {
+                        laserPosY-=20;
+                        laser.style.top = laserPosY + 'px';
+                    }, 10)
+                    }
+                }
+        // Tir ultime unique !
+        if (key == '0') {
+             
+                let generator = setInterval(() => {
+                    if (document.querySelectorAll('.destroyer').length<500) {
+                    let destroyerPosY = 200;
+                    let destroyer = document.createElement('div');
+                    destroyer.classList.add('destroyer');
+                    screen.appendChild(destroyer);
+                    destroyer.style.width = 500 +'px';
+                    destroyer.style.height = 250 +'px'; 
+                    destroyer.style.position = 'absolute';
+                    destroyer.style.top = destroyerPosY + 'px';
+                    destroyer.style.left = 10 +'px';
+                    destroyer.style.borderRadius = '25%'
+                    destroyer.style.backgroundColor = 'blue';
+                    let destroyerBlast = setInterval(() => {
+                        destroyerPosY-=1;
+                        destroyer.style.top = destroyerPosY + 'px';
+                    }, 5)
+                }
+                }, 10)
+            
+                    
+                    
+        }
+        
+    })
+    </script>
+</body>
+</html>
